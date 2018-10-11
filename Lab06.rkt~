@@ -1,0 +1,53 @@
+#lang racket
+
+;Define list of boolean constants
+;eg: constants = '(and not or implies if iff)
+;loop through all elements of the input list, if (x1 not in constants, add to output list)
+
+(define boolean-constants '(and not or implies if iff))
+
+(define (collect-prop-variables l1)
+  (if (not (no-nested-elements? (extract-vars l1)))
+      (append (ese (extract-vars l1)) (collect-prop-variables (car (ene l1))))
+      (extract-vars l1)
+  )
+)
+
+(define (extract-vars l1)
+  (cond
+    [(not (null? l1)) (if (not (contains (car l1) boolean-constants))
+                          (append (list (car l1)) (collect-prop-variables (cdr l1)))
+                          (collect-prop-variables (cdr l1))
+                       )]
+    [(null? l1) '()]
+  )
+)
+
+(define (ese s1)
+  (cond
+    [(and (not (null? s1)) (not (list? (car s1)))) (append (list (car s1)) (ese (cdr s1)))]
+    [(and (not (null? s1)) (list? (car s1))) (ese (cdr s1))]
+    [(null? s1) null]
+  )
+)
+
+(define (ene s1)
+  (cond
+    [(and (not (null? s1)) (list? (car s1))) (append (list (car s1)) (ene (cdr s1)))]
+    [(and (not (null? s1)) (not (list? (car s1)))) (ene (cdr s1))]
+    [(null? s1) null]
+  )
+)
+
+(define (contains x lst)
+  (cond [(member x lst) #t]
+        [else #f]
+   )
+)
+
+(define (no-nested-elements? s1)
+  (cond
+    [(not (null? s1)) (and (not (list? (car s1))) (no-nested-elements? (cdr s1)))]
+    [(null? s1) #t]
+  )
+)

@@ -1,0 +1,24 @@
+#lang racket
+
+; Lab #5, CSCI 301, Prof. Matthews
+; Andrew Nguyen, W01183647
+
+; To convert a string into pig latin, we must first produce a list form of the string, like java where it is "string here".split(" ").
+; Splitting the string by spaces gives an array (or a list in Scheme) ["string", "here"] and then we produce a loop
+; The loop then processes every element of the array individually
+; Also need a way to determine the first character of a word to see if it is a vowel.
+; If vowel, then simply concat a "way" to the end of the word.
+
+; In order to convert a string to its pig latin form, I'll have to convert a string into a list of characters and move them around that way
+; 
+
+
+;(define (isVowel string)
+;(define (splitString string)
+;(define (pigify string)
+;  
+; should make use of two functions. In the form ifVowel() then pigify-v, else if notVowel() then pigify-c
+;)
+;
+;(define (pigify-vowel string)
+;(define (pigify-consonant string)

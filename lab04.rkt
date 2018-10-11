@@ -1,0 +1,158 @@
+#lang racket
+
+;Andrew Nguyen
+;W 0118 3647
+;CSCI 301, Summer 2017
+
+(define (Reflexive? pairs elements)
+  ;if S contains {a, b, c}, then L must contain (a,a), (b,b), and (c,c).
+  ;Thus, if L and R = {(a,a), (b,b), (c,c)...},
+  ;then the intersection of L and R = R
+
+  ;first, construct the smallest reflexive set
+
+  (set! pairs (remove-duplicates pairs))
+  (set! elements (remove-duplicates (cons-r elements)))
+
+  ;(display pairs) (newline)
+  ;(display elements) (newline)
+  (ref-equal? elements (intersection pairs elements))
+  ;(reflexive? '((1 . 1) (2 . 2) (3 . 3) (4 . 4) (5 . 5)) '(1 2 3 4 5)) = #t
+  ;(reflexive? '((1 . 1) (2 . 2) (3 . 3) (4 . 4) (5 . 5)) '(1 2 3 4 5 6)) = #f
+)
+
+;constructs the smallest reflexive set for any input set
+;ie; '(a b c) => '((a . a) (b . b) (c . c))
+(define (cons-r s)
+  (cond
+    [(not (null? s)) (append (list (cons (car s) (car s))) (cons-r (cdr s)))]
+    [(null? s) null]
+  )
+)
+
+;returns the intersection of two sets
+(define (intersection s1 s2)
+  (if (null? s1)
+      '()
+      (if (contains (car s1) s2)
+          (cons (car s1) (intersection (cdr s1) s2))
+          (intersection (cdr s1) s2)
+      )
+   )
+)
+
+;variation on (contains). Determines if all the elements of the elements set also exist inside i-set
+;Essentially if i-sets ≥ elements
+(define (ref-equal? i-set elements)
+  (cond
+    [(not (null? i-set)) (and (contains (car i-set) elements) (ref-equal? (cdr i-set) elements))]
+    [(null? i-set) #t]
+  )
+)
+
+;is the given set of relations symmetric?
+(define (Symmetric? pairs)
+  ;in L, if (a b) exists, (b a) must also exist
+  (set! pairs (remove-duplicates pairs))
+  (sym-helper pairs pairs)
+)
+
+;Helper for symmetric?.
+;checks each pair in the set S to see if it's counterpart also exists in the set.
+;Simply takes a pair, switches the elements (cons (cdr (car pairs)) (car (car pairs))) and checks for existence
+;does recursively for all elements
+(define (sym-helper pairs pairs-dupe)
+  (cond
+    [(not (null? pairs)) (and (contains (cons (cdr (car pairs)) (car (car pairs))) pairs-dupe) (sym-helper (cdr pairs) pairs-dupe))]
+    [(null? pairs) #t]
+  )
+)
+
+;Determines if a set is transitive or not
+(define (Transitive? pairs)
+  ;in L, if (a b) and (b c) exist, then (a c) must exist too
+  ;So, take an element of pairs, take the second element of the pair => (cdr (car pairs))
+  ;Then check and see if (cdr (car pairs)) is equal to (car (car pairs) for any other element of pairs
+  (trans-helper pairs pairs)
+)
+
+;helped by check-exist and is-x2-first?.
+;recursively takes a pair, '(x1 . x2), and checks if any other elements are '(x2 . x3)
+;if true, then '(x1 . x3) must exist as well
+(define (trans-helper pairs pairs-dupe)
+  ;given a pair X, let X = '(x1 . x2)
+  (cond
+    [(not (null? pairs)) (let ([x1 (car (car pairs))] [x2 (cdr (car pairs))])
+                           ;does any other element of pairs contain x2 as the first element of the pair?
+                           ;ie: '(x2 . y), where y is anything?
+                           (and (check-exist x1 (is-x2-first? x2 pairs '()) pairs-dupe) (trans-helper (cdr pairs) pairs-dupe)))]
+    [(null? pairs) #t]
+  )
+)
+
+;returns a list of all the pairs that start with element x2. ie: all pairs of form '(x2 . x3), '(x2 . x4), etc.
+(define (is-x2-first? x2 pairs results)
+  ;if x2 is the first element of a pair, returns the whole pair
+  ;(is-x2-first? 'b '((a . b) (b . a) (b . c)) '())
+  (cond
+    [(not (null? pairs)) (if (equal? x2 (car (car pairs)))
+                             (append (append results (list (car pairs))) (is-x2-first? x2 (cdr pairs) results))
+                             (is-x2-first? x2 (cdr pairs) results))]
+    [(null? pairs) null]
+  )
+)
+
+;forms pairs with x1 and x2's of the existence list and checks for existence in the pairs set.
+;ie, if x1 = 'a and the e-list = '((b . a) (b . c)), then it forms '(a . a) and '(a . c) and checks their existence
+(define (check-exist x1 e-list pairs)
+  (cond
+    [(not (null? e-list)) (and (dre? x1 (cdr (car e-list)) pairs) (check-exist x1 (cdr e-list) pairs))]
+    [(null? e-list) #t]
+  )
+)
+
+;does-relation-exist?
+;simply checks if '(x1 . x3) is in the master set of pairs
+(define (dre? x1 x3 pairs)
+  ;does pair set contain the pair '(x1 . x3)?
+  (contains (cons x1 x3) pairs)
+)
+
+;does element x exist in lst?
+(define (contains x lst)
+  (cond [(member x lst) #t]
+        [else #f]
+   )
+)
+
+;DEPRECATED
+;originally used because I assumed all the lists of pairs would be comprised of numbers so I could sort them...
+;But lists can use symbols too like 'a and 'element
+;So this is useless now
+(define (sort-pair lst)
+  (sort
+    (sort lst
+      (lambda (x y) (< (car (cdr x)) (car (cdr y))))
+    ) (lambda (x y) (< (car x) (car y)))
+  )
+)
+
+(define (testall)
+  (display (Reflexive? '((1 . 2) (3 . 4) (9 . 9) (9 . 9) (1 . 1) (8 . 9) (9 . 8) (1 . 1)) '(1 2 3 4 5 6 8))) (newline) ;#f
+  (display (Reflexive? '((1 . 1) (2 . 2) (3 . 3) (4 . 4) (5 . 5)) '(1 2 3 4 5 6))) (newline) ;#f
+  (display (Reflexive? '((1 . 1) (2 . 2) (3 . 3) (4 . 4) (5 . 5)) '(1 2 3 4 5))) (newline) ;#t
+  (display (Reflexive? '((a . a) (b . b) (c . c)) '(a b c))) (newline) ;#t
+  (display (Reflexive? '((a . a) (c . c) (b . b)) '(a b c))) (newline) ;#t
+  (newline)
+  (display (Symmetric? '((1 . 2) (2 . 1) (3 . 3)))) (newline) ;#t
+  (display (Symmetric? '((1 . 2) (2 . 1) (3 . 3) (1 . 4)))) (newline) ;#f
+  (display (Symmetric? '((a . b) (b . a) (c . c)))) (newline) ;#t
+  (display (Symmetric? '((a . b) (b . a) (c . c) (c . d)))) (newline) ;#f
+  (display (Symmetric? '((a . 1) (b . 2) (1 . a) (2 . b)))) (newline) ;#t
+  (newline)
+  (display (Transitive? '((a . b) (b . a) (b . c)))) (newline) ;#f
+  (display (Transitive? '((a . b) (b . a) (b . c) (a . a)))) (newline) ;#f
+  (display (Transitive? '((a . b) (b . a) (b . c) (a . a) (a . c)))) (newline) ;#t
+  (display (Transitive? '((1 . 1)))) (newline) ;#t
+  (display (Transitive? '((1 . 1) (2 . a) (a . b)))) (newline) ;#f
+)

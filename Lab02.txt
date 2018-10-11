@@ -1,0 +1,10 @@
+two-LHS and two-RHS are functionally equivalent. Inputting one number for both functions gives the same output. The same is true of three-LHS and three-RHS; they are functionally equivalent.
+
+What may be different is the efficiency between the two pairs of functions. For example, because of the way the questions were written, I approached the problems of two-LHS and two-RHS differently. Two-LHS used recursive calls to iterate downward from n and keep a running total, whereas two-RHS was a simple formula. No recursion, just a series of arithmetic operations.
+For a large n, I would say that two-RHS is more efficient as it has no need to recursively call once per n.
+
+For three-LHS and three-RHS, only three-RHS was recursive. For three-LHS I solved for a general term to find the sum of the first n numbers (since 1 + 2 + 3 … is an easy formula), and simply used that. So again, just like with two-LHS and two_RHS, one of the functions here is a single call while the other one is a recursive call. They both have the same output, but in the processor they run differently. 
+
+Because division is an expensive operation in terms of processing time, I would guess that three-RHS (which uses recursion) is more efficient for small n, but for very large n's three-LHS would be more ideal. If we wanted to find out, we'd need to measure the operating time of the function or somehow calculate the clock cycles needed (CPE).
+
+Andrew Nguyen, W0118 3647

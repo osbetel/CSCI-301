@@ -1,0 +1,141 @@
+#lang racket
+
+(define (C x)
+  (cond
+    [(or (= x 1) (= x 2)) 1]
+    [else (C (+ (C (- x 1)) (C (- x (C (- x 1))))))]
+  )
+)
+
+(define (A x)
+  (cond
+    [(or (= x 1) (= x 2)) 1]
+    [else (+ (A (A (- x 1))) (A (- x (A (- x 1)))))]
+  )
+)
+
+(define (contains x lst)
+  (cond [(member x lst) #t]
+        [else #f]
+   )
+)
+
+(define (intersection s1 s2)
+  (if (null? s1)
+      '()
+      (if (contains (car s1) s2)
+          (cons (car s1) (intersection (cdr s1) s2))
+          (intersection (cdr s1) s2)
+      )
+   )
+)
+
+;must account for the case of nested sets
+;thus in the case of '(a (b (c d)) ((d c) b))
+;and '((b (c d)) ((d c) b)), we must confirm that the individual elements are set-equal? to one another
+;ie, is (set-equal? 'b 'b) true? yes. is (set-equal? '(c d) '(d c)) true? yes. So (set-equal? '(b (c d)) '((d c) b)) is true too
+(define (set-equal? s1 s2)
+  ;two cases
+  ;if none of the elements in s1 and s2 are lists, then use subset equality
+  ;if they both contain list elements, ie s1 = (b (c d)) and s2 = ((d c) b)
+  
+  ;The best solution may be to create a subroutine that divides lists by element type
+  ;eg: if s1 = (a b (c d) (e (f g))) is divided into three
+  ;A = (a b), B = ((c d) (e (f g))
+
+  ;This way, single elements could be compared using (subset?), nested sets could be compared using a recursive form of (subset?)
+  ;And pairs can be compaired
+  (cond
+    [(and (no-nested-elements? s1) (no-nested-elements? s2)) (and (subset? s1 s2) (subset? s2 s1))]
+    [else (
+  )
+)
+
+(define (no-nested-elements? s1)
+  (cond
+    [(not (null? s1)) (and (not (list? (car s1))) (no-nested-elements? (cdr s1)))]
+    [else #t]
+  )
+)
+
+;may not be needed
+(define (basic-set-equal? s1 s2)
+  (cond
+    [(and (list? s1) (list? s2)) (and (subset? s1 s2) (subset? s2 s1))]
+    [(and (not (list? s1)) (not (list? s2))) (contains s1 s2)]
+    [else #f]
+  )
+)
+
+;is s1 ≥ s2 ?
+(define (subset? s1 s2)
+  (cond
+    [(not (null? s1)) (and (contains (car s1) s2) (subset? (cdr s1) s2))]
+    [(null? s1) #t]
+  )
+)
+
+
+
+(define (testall)
+  (display (C 1)) (newline)
+  (display (C 2)) (newline)
+  (display (C 3)) (newline)
+  (display (C 4)) (newline)
+  (display (C 5)) (newline)
+  (display (C 6)) (newline)
+  (display (C 7)) (newline)
+  (display (C 8)) (newline)
+  (display (C 9)) (newline)
+  (display (C 10)) (newline) (newline)
+
+  (display (A 1)) (newline)
+  (display (A 2)) (newline)
+  (display (A 3)) (newline)
+  (display (A 4)) (newline)
+  (display (A 5)) (newline)
+  (display (A 6)) (newline)
+  (display (A 7)) (newline)
+  (display (A 8)) (newline)
+  (display (A 9)) (newline)
+  (display (A 10)) (newline) (newline)
+
+  (define s1 '(a b c d e f))
+  (define s2 '(a b c d e))
+  (display (set-equal? s1 s2)) (newline) ;#f
+
+  (set! s1 '(a b c d e))
+  (set! s2 '(a b c d e))
+  (display (set-equal? s1 s2)) (newline) ;#t
+
+  (set! s1 '(e d c b a))
+  (set! s2 '(a b c d e))
+  (display (set-equal? s1 s2)) (newline) ;#t
+
+  (set! s1 '(a b c d e))
+  (set! s2 '(a b c d e f))
+  (display (set-equal? s1 s2)) (newline) ;#f
+
+  (set! s1 '((a b) (c d) (e f)))
+  (set! s2 '(a b c d e f))
+  (display (set-equal? s1 s2)) (newline) ;#f
+
+  (set! s1 '((a b) (c d) (e f)))
+  (set! s2 '((a b) (c d) (e f)))
+  (display (set-equal? s1 s2)) (newline) ;#t
+
+  (set! s1 '(a (b (c d))))
+  (set! s2 '(((d c b) a)))
+  (display (set-equal? s1 s2)) (newline) ;#f
+
+  (set! s1 '(a (b (c d))))
+  (set! s2 '(((d c) b) a))
+  (display (set-equal? s1 s2)) (newline) ;#t
+  (remove-duplicates (append s1 s2))
+  ;'(a (b (c d)) ((d c) b))
+
+  (set! s1 '((b (c d))))
+  (set! s2 '(((d c) b)))
+  (display (set-equal? s1 s2)) (newline) ;#t
+  
+)

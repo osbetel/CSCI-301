@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage{amsfonts,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyvrb}
+
+\newcommand{\qed}{\hfill\ensuremath{\blacksquare}}
+\title{CSCI 480, Winter 2017\\Math Exercises \# 2}
+\author{Andrew Nguyen}
+\date{Due date:  Wednesday, February 1, midnight.}
+
+\begin{document}
+
+\maketitle
+
+
+\noindent{\large
+  {\bf Turn in both the tex and pdf files (not zipped):  } {\tt math02.tex} and {\tt
+  math02.pdf}.  }
+
+\begin{description}
+\item[Exercises for Chapter 4]
+Use the method of direct proof to prove the following statements.
+\item[16.] If two integers have the same parity, then their sum is even.
+
+Proposition: The sum of two integers with the same parity is an even integer.
+
+\textit{Proof.} Suppose that we have two integers, $a$ and $b$, that have the same parity.
+
+The set of all even numbers is defined as $\{2n:n\in\mathbb{Z}\}$.
+
+The set of all odd odd numbers is defined as $\{2n+1:n\in\mathbb{Z}\}$.
+
+Thus, the set of the sum of $a$ and $b$ is either 
+
+$(2n+2n) = (4n)$, if $a$ and $b$ are even,
+
+or, 
+
+$((2n+1)+(2n+1)) = (4n+2)$, if $a$ and $b$ are odd.
+
+For any integer, $\{n\in\mathbb{Z}\}$, whether the summed number falls into
+$(4n)$ or $(4n+2)$, the integer will be even.
+
+Therefore, the sum of any two integers with the same parity is an even integer.
+
+\item[Exercises for Chapter 5]
+Use the method of contrapositive proof to prove the following statements.
+\item[12.]  Suppose $a\in\mathbb{Z}$.  If $a^2$ is not divisible by 4,
+  then $a$ is odd.
+  
+  Proposition: Suppose $a\in\mathbb{Z}$. If $a^2$ is not divisible by 4,
+  then $a$ is odd.
+  
+  \textit{Proof.} Suppose $a$ is even.
+  
+  Since $a$ is even, the set of all $a$ in $\mathbb{Z}$ is defined as:
+    $\{2n:n\in\mathbb{Z}\}$
+  
+  Accordingly, the set of all $a^2$ in $\mathbb{Z}$ must be: $\{4n^2:n\in\mathbb{Z}\}$;
+  this is the set of all values of $a^2$ where $a$ is an even integer.
+  
+  Since $4n^2$ is a multiple of 4, all the values of $a^2$, where $a$ is even, must also be divisible by 4.
+  
+  Therefore, for all values of $a^2$ that are not divisible by 4, $a$ must be odd.
+
+\item[Exercises for Chapter 6]
+Use the method of proof by contradiction to prove the following statements.
+\item[18.] Suppose $a,b\in\mathbb{Z}$.  If $4\mid (a^2 + b^2)$, then
+  $a$ and $b$ are not both odd.
+  
+  Proposition: Suppose $a,b\in\mathbb{Z}$.  If $4\mid (a^2 + b^2)$, then
+  $a$ and $b$ are not both odd. (Can be even-even or odd-even but not odd-odd)
+  
+  \textit{Proof.} Suppose that there exist values of $a$ and $b$ that are both odd, but still allow $4\mid(a^2+b^2)$ to hold true.
+  
+  By definition of an odd number, both $a$ and $b$ must exist within the set of numbers: $\{2n+1:n\in\mathbb{Z}\}$
+  
+  Further, in being divisible by 4, $(a^2+b^2)$ must sum to some number $c$ that lies within the set defined as $\{4n:n\in\mathbb{Z}\}$
+  
+\item[Exercises for Chapter 7]
+  State clearly which method of proof you are using.
+\item[24.]  If $a\in\mathbb{Z}$, then $4\nmid (a^2-3)$.
+
+Proposition: if $a\in\mathbb{Z}$, then $4\nmid (a^2-3)$
+
+\textit{Direct proof.} As stated in problem 12 under Exercise 5 above, if $a^2$ is not divisible by 4,
+then $a$ must be odd. It follows then, that $a$ must be even if $a^2$ is divisible by 4.
+
+For all even values of $a$, $4\nmid(a^2-3)$ must hold true. An even value of $a$ would produce an even valued $a^2$
+as justified by: $(2n)*(2n) = (4n^2)$, which, for all values of n still produces an even number. 
+
+
+  
+
+\item[Exercises for Chapter 8]
+\item[20.] Prove that $\{9^n:n\in\mathbb{Q}\}= \{3^n:n\in\mathbb{Q}\}$.  
+
+\item[Exercises for Chapter 9]
+  Each of the following statements is either true or false.
+  If a statement is true, prove it.
+  If a statement is false, disprove it.
+\item[18.] If $a,b,c\in\mathbb{N}$, then at least one of $a-b$,
+  $a+c$, and $b-c$ is even.
+
+  
+
+\item[Exercises for Chapter 10]
+  
+\item[2.] For every integer $n\in\mathbb{N}$, it follows that
+  \[
+  \sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}
+  \]
+
+\item[6.] For every natural number $n$, it follows that
+  \[
+  \sum_{i=1}^{n}(8i-5) = 4n^2 - n
+  \]
+
+\item[10.] For every integer $n\geq 0$, it follows that $3\mid (5^{2n} - 1)$.
+
+
+\item[14.]
+ Suppose $a\in\mathbb{Z}$.  Prove that $5\mid 2^na$ implies
+  $5\mid a$ for any $n\in\mathbb{N}$.
+
+\end{description}
+
+
+\end{document}

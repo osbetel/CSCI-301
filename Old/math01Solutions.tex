@@ -1,0 +1,162 @@
+\documentclass[10pt]{article}
+\usepackage[usenames]{color} %used for font color
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage[utf8]{inputenc} %useful to type directly diacritic characters
+
+\title{CSCI 301, Winter 2017\\Math Exercises \# 1}
+\author{Andrew Nguyen}
+\date{Due date:  Monday, January 23, midnight.}
+
+\begin{document}
+
+
+
+\maketitle
+
+\noindent{\large
+  {\bf Turn in both the tex and pdf files (not zipped):  } {\tt math01.tex} and {\tt math01.pdf}.  }
+
+\begin{description}
+\item[Exercises for Section 1.1]
+\item[C.] Find the following cardinalities
+\item[30.] $|\{\{1,4\},a,b,\{\{3,4\}\},\{\emptyset\}\}|$ = 5
+
+\item[Exercises for Section 1.3]
+\item[A.] List all the subsets of the following sets.
+\item[8.] $\{\{0,1\},\{0,1,\{2\}\},\{0\}\}$
+
+
+Let: 
+a = $\{0, 1\}$ 
+
+b = $\{0,1,\{2\}\}$ 
+
+c = $\{0\}$
+
+If O = the original set, then $\{a,b,c\}$ = O
+All subsets of O would be $\{a,b,c\}$, $\{a,b\}$, $\{a,c\}$, $\{b,c\}$, $\{a\}$, $\{b\}$, $\{c\}$, $\{\emptyset\}$
+
+
+\item[Exercises for Section 1.4]
+\item[A.] Find the indicated sets.
+\item[12.] $\{X\in\mathcal{P}(\{1,2,3\}):2\in X\}$
+
+All sets where X is an element of $\mathcal{P}(\{1,2,3\})$ such that 2 is an element of X.
+
+$\mathcal{P}(\{1,2,3\}) = \{\{ø\}, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\}\}$
+
+Answer = $\{\{2\}, \{1, 2\}, \{2, 3\}, \{1, 2, 3\}\}$ 
+
+\item[B.] Suppose that $|A|=m$ and $|B|=n$.  Find the following cardinalities.
+\item[18.] $|\mathcal{P}(A\times \mathcal{P}(B))|$
+
+$|\mathcal{P}(B))| = 2^n$
+
+$|(A\times 2^n)| = (m2^n)$
+
+Thus, $|\mathcal{P}(A\times \mathcal{P}(B))| = 2^{m2^n}$
+
+\item[Exercises for Section 2.5] Write a truth table for the logical
+  statements in problems 1--9:
+
+\item[8.] $P \vee (Q \wedge \neg R)$
+
+ \begin{tabular}{||c c c c||} 
+ \hline
+ P & Q & R & Result \\ [0.5ex] 
+ \hline\hline
+ T & T & T & T\\ 
+ \hline
+ T & T & F & T\\
+ \hline
+ T & F & T & T\\
+ \hline
+ T & F & F & T \\
+ \hline
+ F & T & T & F \\
+ \hline
+ F & T & F & T \\
+ \hline
+ F & F & T & F \\
+ \hline
+ F & F & F & F \\ [1ex] 
+ \hline
+\end{tabular}
+
+
+\item[Exercises for Section 2.10]  Negate the following sentences.
+
+
+\item[8.] If $x$ is a rational number and $x\not = 0$, then
+  $\tan(x)$ is not a rational number.
+
+If $x$ is an irrational number or $x = 0$, then
+$\tan(x)$ is a rational number.
+  
+
+\item[Exercises for Section 3.1]
+
+\item[4.]  Five cards are dealt off a standard 52-card deck and
+  lined up in a row.  How many such lineups are there in
+  which all 5 cards are of the same suit?
+
+I am assuming due to the use of the word "lineups" that the order you draw the cards in is significant. \\\\
+i.e.: (King, Ace, 1, 2, 3) is different than (Ace, King, 1, 2, 3) 
+
+$_nP_r(13, 5) = 154,440$ different ways. \\ 
+$(13 * 12 * 11 * 10 * 9) = 154,440$ too. \\\\
+It makes more sense to think of it that way since we have 13 choices at first, 
+select 1, 12 are left, select one more, etc. This is the calculation assuming we 
+draw only cards of one suit, say specifically diamonds. So we multiply this 
+by 4 because it applies to each suit in the deck and we get the total ways 
+to get 5 cards of the same suit.: \\ $4 * 154,440 = 6,177,600$ \\
+
+
+\item[Exercises for Section 3.2]
+
+\item[8.] Compute how many 7-digit numbers can be made from the digits
+  1,2,3,4,5,6,7 if there is no repetition and the odd digits
+  must appear in an unbroken sequence.  (Examples: 3571264 or 2413576 or
+  2467531, but not 7234615.)
+
+Since the odd numbers can’t break sequence, they are limited to “slots” of four spaces. 
+The odd numbers must go in the first four, second four, third four, or final four slots, 
+leaving the even numbers to take up the rest of the space. 
+
+For the first four spaces, the odd numbers can be arranged in 4! ways, and the remaining 
+even numbers have $3!$ orientations giving $4!3! = 144$ ways only for the case of odd numbers 
+in the first four slots. The same applies to the cases of the second, third, and final four 
+space slots. So $144 * 4 = 576$ total different scenarios.
+
+\item[Exercises for Section 3.3]
+
+\item[12.] Twenty-one people are to be divided into two teams, the Red
+  Team and the Blue Team.  There will be 10 people on the Red Team and
+  11 people on the Blue Team.  In how many ways can this be done?
+
+The answer is $_nC_r(21, 10) = 116,280$
+
+\item[Exercises for Section 3.5]
+
+
+\item[8.] This problem concerns 4-card hands dealt off of a standard
+  52-card deck.  How many 4-card hands are there for which all 4 cards
+  are of different suits or all 4 cards are red?
+
+
+The total number of 4-card hands is the sum of both the first and second scenarios.
+
+If all cards are different suits, you would be choosing 1 card from 13 (13 per suit), 
+4 times in a row. Or simply $13^4 = 28,561$ ways to choose 4 cards that all have different suits.
+
+If you wanted all 4 cards to be red, then you are choosing 4 cards out of 26 red cards. $_nC_r(26, 4) = 14,950$ ways to choose 4 red cards. 
+This is all assuming the order of the cards does not matter (I’m assuming it doesn’t since it wasn’t specified in the question).
+The total number of hands that satisfy one of the two conditions above is $28,561 + 14,950 = 43,511$
+
+
+
+\end{description}
+
+
+\end{document}

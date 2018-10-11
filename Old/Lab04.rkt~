@@ -1,0 +1,16 @@
+#lang racket
+
+(define (compose f g)
+  ;(lambda (x) ((f) (lambda (x) ((g) x))))
+  (lambda (x) ((f) ((g) x)))
+)
+
+(define (square) (lambda (x) (* x x)))
+(define (add1) (lambda (x) (+ x 1)))
+(define (cube) (lambda (x) (* x x x)))
+;sqrt, tan, sin, cos are also all integrated functions
+(define (linear) (lambda (x) (+ (* -4 x) 13))) ;-4x + 13
+(define (quadratic) (lambda (x) (+ (* 3 (* x x)) (* -4 x) 5)))
+
+
+(define (repeated f n) (+ f n))
